@@ -1,0 +1,22 @@
+#! ruby
+require 'test/unit'
+
+require 'pandemic/cases'
+
+class TestCases < Test::Unit::TestCase
+  def test_cases
+    default = {1 => 'I', 4 => 'D', 7 => 'R'}
+
+    cases = Pandemic::Cases.new(16).populate_with(default)
+    cases[11] = 'I'
+
+    # cases and default are distinct separate hashes
+    refute default.object_id == cases.object_id
+    assert_equal 'I', cases[11]
+    assert_nil default[11]
+
+    assert_equal 'I', cases[1]
+    assert_equal 'D', cases[4]
+    assert_equal 'R', cases[7]
+  end
+end

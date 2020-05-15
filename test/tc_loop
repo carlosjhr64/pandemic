@@ -1,0 +1,37 @@
+#! ruby
+require 'test/unit'
+require 'pandemic'
+
+class TestLoop < Test::Unit::TestCase
+  def test_loop
+    lup = Pandemic::Loop.new
+    assert_nil lup.looping
+    assert_equal 'run', lup.description
+    assert lup.trace.is_a? Pandemic::Trace
+    assert lup.iterator.is_a? Pandemic::Iterator
+    assert_equal <<-LOOP, lup.to_s
+# Loop
+    Looping:     -
+    Description: run
+
+# Trace
+    Halt: {date: -, days: -, deaths: -, cases: -, color: -, alert_days: -, rsd: -}
+
+# Iterator
+    Seed: #{Pandemic::SEED}
+
+# Virus
+    Transmission: 0.360
+    Recovery:     5.59
+    Lethality:    0.0235
+
+# Grid
+    Population: 58507201
+    Width:      7649
+
+# Behavior
+    Travel:   1664
+    Contacts: 100.0
+    LOOP
+  end
+end

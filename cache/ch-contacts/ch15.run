@@ -1,0 +1,69 @@
+# Day, Dead, Cases, Recovered, Infected, Sum Of Errors, RSD, Date
+28 1 1222 183 1038 0 0.0 2020-Jan-09
+29 1 1584 245 1338 0 0.0 2020-Jan-10
+30 1 2095 322 1772 0 0.0 2020-Jan-11
+31 1 2695 407 2287 0 0.0 2020-Jan-12
+32 1 3509 519 2989 0 0.0 2020-Jan-13
+33 1 4574 712 3861 0 0.0 2020-Jan-14
+34 2 5945 929 5014 0 0.0 2020-Jan-15
+35 2 7816 1210 6604 0 0.0 2020-Jan-16
+36 2 10142 1575 8565 0 0.0 2020-Jan-17
+37 2 13205 2019 11184 0 0.0 2020-Jan-18
+38 4 17349 2655 14690 1 0.09097305909452078 2020-Jan-19
+39 4 22606 3446 19156 2 0.1226680478587726 2020-Jan-20
+40 7 29310 4537 24766 5 0.19972726815311742 2020-Jan-21
+41 13 38163 5904 32246 1 0.20581121787295897 2020-Jan-22
+42 19 49873 7660 42194 2 0.19885037638644767 2020-Jan-23
+43 27 64638 10022 54589 3 0.19235469719638587 2020-Jan-24
+!# Configuration
+!  File:         data/deaths_china
+!  Alert Deaths: 1
+!  Alert Date:   2020-01-09
+!
+!# Loop
+!    Looping:     -
+!    Description: ch15
+!
+!# Trace
+!    Halt: {date: -, days: -, deaths: -, cases: -, color: -, alert_days: 15, rsd: -}
+!
+!# Iterator
+!    Seed: c0c3853f10b2eec4dc9a9cc6bd469f73
+!
+!# Virus
+!    Transmission: 0.381
+!    Recovery:     5.59
+!    Lethality:    0.0235
+!
+!# Grid
+!    Population: 58507201
+!    Width:      7649
+!
+!# Behavior
+!    Travel:   1664
+!    Contacts: 100.0
+!
+!# Doubling
+!| Date | Deaths | Doubling Days |
+!| :--- | -----: | ------------: |
+!| Jan 09 | 1 | - |
+!| Jan 15 | 2 | 6.0 |
+!| Jan 19 | 4 | 4.0 |
+!| Jan 22 | 13 | 1.8 |
+!| Jan 23 | 19 | 1.8 |
+!
+!# Tallies(Jan 24)
+!    Cases:     64638, 223°
+!    Infected:  54589, 220°
+!    Recovered: 10022, 185°
+!    Deaths:    27, 67°
+!
+!# Daily Peaks
+!    Deaths(Jan 24):     8, 44°
+!    Infections(Jan 24): 54589, 220°
+!
+!# Errors
+!    N:   16
+!    Sum: 3
+!    RSD: 0.192355
+!

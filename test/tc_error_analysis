@@ -1,0 +1,25 @@
+#! ruby
+require 'test/unit'
+require 'date'
+require 'help_parser'
+
+require 'pandemic/config'
+require 'pandemic/error_analysis'
+
+class TestErrorAnalysis < Test::Unit::TestCase
+  def test_error_analysis
+    e = Pandemic::ErrorAnalysis.new
+    e.add(10, 9)
+    e.add(10, 9)
+    e.add(10, 9)
+    e.add(10, 11)
+    assert e.n.is_a? Integer
+    assert_equal 4, e.n
+    assert e.sum.is_a? Integer
+    assert_equal -2, e.sum
+    sum2, e9, e11 = 0.0, Math.log(9.0/10.0).abs, Math.log(11.0/10.0).abs
+    sum2 += e9*e9; sum2 += e9*e9; sum2 += e9*e9; sum2 += e11*e11
+    rsd = Math.sqrt(sum2/3.0)
+    assert_equal rsd, e.rsd
+  end
+end

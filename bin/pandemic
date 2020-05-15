@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+require_relative '../lib/pandemic.rb'
+include Pandemic
+
+def press_yn
+  display='Continue?(Y/n): '
+  loop do
+    $stderr.print display
+    yn = $stdin.gets
+    exit unless yn
+    yn.strip!
+    exit if yn == 'n'
+    return if yn == 'Y'
+    display = '"Y" or "n"?: '
+  end
+end
+
+def inspection(out=$stderr)
+  out.puts LOOP.to_s
+  out.puts LOOP.iterator.virus.trials if OPTIONS.trials?
+end
+
+if OPTIONS.save_it? and not Dir.glob("cache/#{DESC}.*").empty?
+  $stderr.puts "#{DESC} files in cache exists."
+  exit 73
+end
+
+LOOP = Loop.new
+
+if OPTIONS.inspect?
+  inspection
+  press_yn
+elsif OPTIONS.trials?
+  puts LOOP.iterator.virus.trials if OPTIONS.trials?
+  exit
+end
+
+Signal.trap('INT') do
+  exit if $INTERUPTED # a second time!
+  $stderr.puts <<-INTERUPTION
+Interrupt request...
+Will end simulation when current cycle ends.
+Interrupt again to exit now.
+  INTERUPTION
+  $INTERUPTED = true
+end
+
+LOOP.run

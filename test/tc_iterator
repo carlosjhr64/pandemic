@@ -1,0 +1,69 @@
+#! ruby
+require 'test/unit'
+require 'date'
+
+require 'help_parser'
+
+require 'pandemic/config'
+require 'pandemic/tally'
+require 'pandemic/virus'
+require 'pandemic/grid'
+require 'pandemic/behavior'
+require 'pandemic/cases'
+require 'pandemic/iterator'
+
+class TestIterator < Test::Unit::TestCase
+  def test_iterator_new
+    iterator = Pandemic::Iterator.new
+    assert_equal Pandemic::SEED.to_i(16), iterator.seed
+    assert_equal Pandemic::TRANSMISSION, iterator.virus.transmission
+    assert_equal Math.sqrt(Pandemic::POPULATION).round, iterator.grid.width
+  end
+
+  def test_iterator_tos
+    iterator = Pandemic::Iterator.new grid: Pandemic::Grid.new(population: 10_000)
+    v = iterator.virus
+    v.transmission = 0.001
+    v.recovery = 0.02
+    v.lethality = 0.0003
+    assert_equal <<-ITERATOR, iterator.to_s
+# Iterator
+    Seed: #{Pandemic::SEED}
+
+# Virus
+    Transmission: 0.100
+    Recovery:     2.00
+    Lethality:    0.0300
+
+# Grid
+    Population: 10000
+    Width:      100
+
+# Behavior
+    Travel:   1664
+    Contacts: 100.0
+    ITERATOR
+  end
+
+  def test_iterator_run
+    iterator = Pandemic::Iterator.new
+    # Just check the default runs as expected...
+    flag = :outside
+    cases = {0 => 'I'}
+    tally = Pandemic::RunningCount.new.tally_up(cases)
+    iterator.run(cases, tally) do
+      flag = :inside
+      break if tally.days > 30
+      flag = :ok
+      tally.days < 30
+    end
+    assert_equal :ok, flag
+    # This part will need constant maintainance, but
+    # it will catch changes that may or not be expected.
+    assert_equal 1004, tally.infected
+    assert_equal  192, tally.recovered
+    assert_equal    1, tally.deaths
+    assert_equal   30, tally.days
+    assert_equal tally.cases, tally.infected+tally.recovered+tally.deaths
+  end
+end

@@ -1,0 +1,47 @@
+#! ruby
+require 'test/unit'
+require 'date'
+require 'help_parser'
+
+require 'pandemic/config'
+require 'pandemic/tally'
+
+class TestTally < Test::Unit::TestCase
+  def test_infected_days_tally
+    tally = Pandemic::InfectedDays.new
+    assert tally.is_a? Pandemic::InfectedDays
+    assert_equal 0, tally.days
+    assert_equal 0, tally.number
+    assert_equal 0, tally.deaths
+  end
+
+  def test_running_count_tally
+    tally = Pandemic::RunningCount.new
+    assert tally.is_a? Pandemic::RunningCount
+    [:cases, :infected, :recovered, :deaths, :days,
+     :previous_deaths, :max_deaths, :max_infected].each do |key|
+      assert_equal 0, tally.method(key).call
+    end
+    [:date, :color, :max_deaths_date, :max_infected_date].each do |key|
+      assert_nil tally.method(key).call
+    end
+    tally.alert_days!
+    assert_equal 0, tally.alert_days
+    tally.alert_days!
+    assert_equal 1, tally.alert_days
+    tally.doubling_alert!
+    assert_equal 2*Pandemic::ALERT_DEATHS, tally.doubling_alert
+    assert tally.alerts.is_a? Array
+    assert tally.alerts.empty?
+    assert_raises do
+      tally.wut # tally.wut not registered
+    end
+  end
+
+  def test_tally_up
+    tally = Pandemic::RunningCount.new.tally_up({1 => 'I', 2 => 'I', 3 => 'R', 4 => 'D', 5 => 'I', 6 => 'D'})
+    assert_equal 3, tally.infected
+    assert_equal 2, tally.deaths
+    assert_equal 1, tally.recovered
+  end
+end

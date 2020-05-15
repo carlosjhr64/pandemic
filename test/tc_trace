@@ -1,0 +1,44 @@
+#! ruby
+require 'test/unit'
+require 'date'
+
+require 'colorize'
+require 'help_parser'
+
+require 'pandemic/config'
+require 'pandemic/tally'
+require 'pandemic/virus'
+require 'pandemic/grid'
+require 'pandemic/behavior'
+require 'pandemic/cases'
+require 'pandemic/iterator'
+require 'pandemic/error_analysis'
+require 'pandemic/trace'
+
+class TestBehavior < Test::Unit::TestCase
+  def test_trace
+    trace = Pandemic::Trace.new
+    trace.halt[:deaths] = 1
+    assert_equal <<-TRACE, trace.to_s
+# Trace
+    Halt: {date: -, days: -, deaths: 1, cases: -, color: -, alert_days: -, rsd: -}
+    TRACE
+    # Verify the default run warmup
+    iterator = Pandemic::Iterator.new
+    cases = {0 => 'I'}
+    tally = Pandemic::RunningCount.new.tally_up(cases)
+    trace.reset(tally)
+    iterator.run(cases, tally){ trace.run }
+    pp tally
+    assert_equal :green, trace.analysis.color
+    assert_equal cases.length, tally.cases
+    assert_equal tally.cases, 953
+    assert_equal tally.infected, 803
+    assert_equal tally.recovered, 149
+    assert_equal tally.deaths, 1
+    assert_equal tally.days, 29
+    assert_equal tally.previous_deaths, 1
+    assert_equal tally.max_deaths, 1
+    assert_equal tally.max_infected, 803
+  end
+end

@@ -1,0 +1,20 @@
+#! ruby
+require 'test/unit'
+require 'date'
+require 'help_parser'
+
+require 'pandemic/config'
+require 'pandemic/behavior'
+
+class TestBehavior < Test::Unit::TestCase
+  def test_behavior_new
+    behavior = Pandemic::Behavior.new
+    assert_equal Pandemic::CONTACTS, behavior.contacts
+    assert_equal Pandemic::TRAVEL,   behavior.travel
+    assert_equal <<-BEHAVIOR, behavior.to_s
+# Behavior
+    Travel:   1664
+    Contacts: 100.0
+    BEHAVIOR
+  end
+end

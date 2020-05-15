@@ -1,0 +1,91 @@
+#! ruby
+require 'test/unit'
+require 'date'
+require 'help_parser'
+
+require 'pandemic/config'
+require 'pandemic/grid'
+
+class TestGrid < Test::Unit::TestCase
+  def test_grid_new
+    # Default
+    grid = Pandemic::Grid.new
+    assert_equal Math.sqrt(Pandemic::POPULATION).round, grid.width
+    assert_equal grid.width*grid.width, grid.population
+    # Custom
+    grid = Pandemic::Grid.new population: 100
+    assert_equal 10, grid.width
+    assert_equal 100, grid.population
+  end
+
+  def test_grid_key_xy
+    population = 10_000
+    grid = Pandemic::Grid.new population: population
+    assert_equal population, grid.population
+    0.upto(population-1) do |key|
+      x,y = grid.xy(key)
+      assert_equal key, grid.key(x, y)
+    end
+  end
+
+  def test_grid_xy
+    grid = Pandemic::Grid.new population: 100
+    # 0
+    x,y = grid.xy(0)
+    key = grid.key(x,y)
+    assert_equal 0, x
+    assert_equal 0, y
+    assert_equal 0, key
+    # 1
+    x,y = grid.xy(1)
+    key = grid.key(x,y)
+    assert_equal 0, x
+    assert_equal 1, y
+    assert_equal 1, key
+    # 25 
+    x,y = grid.xy(25)
+    key = grid.key(x,y)
+    assert_equal 2, x
+    assert_equal 5, y
+    assert_equal 25, key
+  end
+
+  def test_grid_deltas
+    grid = Pandemic::Grid.new population: 100
+    ###
+    p1 = grid.key(1,1)
+    p2 = grid.key(2,3)
+    dx,dy = grid.deltas(p1, p2)
+    assert_equal 1, dx
+    assert_equal 2, dy
+    ###
+    p1 = grid.key(0,0)
+    p2 = grid.key(0,9)
+    dx,dy = grid.deltas(p1, p2)
+    assert_equal 0, dx
+    assert_equal 1, dy
+    ###
+    p1 = grid.key(0,0)
+    p2 = grid.key(9,0)
+    dx,dy = grid.deltas(p1, p2)
+    assert_equal 1, dx
+    assert_equal 0, dy
+  end
+
+  def test_grid_near
+    grid = Pandemic::Grid.new population: 100
+    p1 = grid.key(0,0)
+    p2 = grid.key(2,3)
+    assert grid.near?(p1, p2, 3)
+    refute grid.near?(p1, p2, 2)
+  end
+
+  def test_grid_to_s
+    grid = Pandemic::Grid.new population: 100
+    assert_equal <<-GRID, grid.to_s
+# Grid
+    Population: 100
+    Width:      10
+    GRID
+  end
+end

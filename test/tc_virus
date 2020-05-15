@@ -1,0 +1,60 @@
+#! ruby
+require 'test/unit'
+require 'date'
+require 'help_parser'
+
+require 'pandemic/config'
+require 'pandemic/tally'
+require 'pandemic/virus'
+
+class TestVirus < Test::Unit::TestCase
+  def test_virus_new
+    virus = Pandemic::Virus.new transmission: 0.1, recovery: 0.2, lethality: 0.3
+    assert_equal 0.1, virus.transmission
+    assert_equal 0.2, virus.recovery
+    assert_equal 0.3, virus.lethality
+    virus = Pandemic::Virus.new
+    assert_equal Pandemic::TRANSMISSION, virus.transmission
+    assert_equal Pandemic::RECOVERY,     virus.recovery
+    assert_equal Pandemic::LETHALITY,    virus.lethality
+  end
+
+  def test_virus_trials_tally
+    # Obvious simple
+    virus = Pandemic::Virus.new recovery: 0.5, lethality: 0.0
+    tally = virus.trials_tally(321, seeds: ['0'])
+    assert_equal 321, tally.number
+    tally = virus.trials_tally
+    assert_equal Pandemic::TRIALS*Pandemic::SEEDS.length, tally.number
+    assert_equal 2.0, (tally.days / tally.number.to_f).round(2)
+    assert_equal 0, tally.deaths
+    # Target 100.0 days and 1.0% ifr
+    r,l = 0.01, 0.0001 # TODO: kinda'of guessing here, no formal proof.
+    virus = Pandemic::Virus.new recovery: r-l, lethality: l
+    tally = virus.trials_tally
+    days = tally.days/tally.number.to_f
+    ifr = 100.0*tally.deaths/tally.number.to_f
+    assert_equal 100.0, days.round
+    assert_equal 1.0, ifr.round(1)
+  end
+
+  def test_virus_trials
+    virus = Pandemic::Virus.new
+    assert_equal <<-TRIALS, virus.trials
+# Virus Trials
+    Fatality Rate:       0.39%
+    Infectuous Days:     17.8
+    Reproduction Number: 6.41
+    TRIALS
+  end
+
+  def test_virus_to_s
+    virus = Pandemic::Virus.new
+    assert_equal <<-TOS, virus.to_s
+# Virus
+    Transmission: 0.360
+    Recovery:     5.59
+    Lethality:    0.0235
+    TOS
+  end
+end

@@ -1,0 +1,53 @@
+#! ruby
+require 'test/unit'
+require 'date'
+require 'help_parser'
+
+require 'pandemic/config'
+
+class TestConfig < Test::Unit::TestCase
+  include Pandemic
+  # Just verify defaults, traps changes to config.
+  def test_config_defaults
+    # Data
+    assert_equal 'data/deaths_china',                DEATHS_FILE
+    assert DEATHS_DATA.length > 0
+    assert DEATHS_DATA.all?{|_|_.is_a? Integer}
+    # Random
+    assert_equal '983dad045d8b266615b1794d34d7f7e1', SEED
+    assert_equal 100,                                SEEDS.length
+    assert SEEDS.all?{|_|_=~/^\h{32}$/}
+    # Grid
+    assert_equal 58_500_000,                         POPULATION
+    # Virus
+    assert_equal 0.0036000,                          TRANSMISSION.round(7)
+    assert_equal 0.0559000,                          RECOVERY.round(7)
+    assert_equal 0.0002350,                          LETHALITY.round(7)
+    assert_equal 25_000,                             TRIALS
+    # Behavior
+    assert_equal 100.0,                              CONTACTS
+    assert_equal 1664,                               TRAVEL
+    # Halting
+    assert_equal nil,                                HALT[:date]
+    assert_equal nil,                                HALT[:days]
+    assert_equal nil,                                HALT[:deaths]
+    assert_equal nil,                                HALT[:cases]
+    assert_equal nil,                                HALT[:color]
+    assert_equal nil,                                HALT[:rsd]
+    # Alert
+    assert_equal 1,                                  ALERT_DEATHS
+    assert_equal Date.parse('2020-01-09'),           ALERT_DATE
+    # Loop
+    assert_equal nil,                                LOOP
+    assert_equal 'run',                              DESCRIPTION
+    assert_equal 1.0e-05,                            DELTA
+    assert_equal 25,                                 MIN_DEATHS_RUN
+    assert_equal 25,                                 MIN_ALERT_DAYS_RUN
+    assert_equal 1.0,                                HALT_RSD
+    # Colors
+    assert_equal 1, GREEN
+    assert_equal 3, BLUE
+    assert_equal 9, RED
+    assert_equal false, $INTERUPTED
+  end
+end
