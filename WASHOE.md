@@ -43,15 +43,15 @@ nice --adjustment=19 pandemic --recovery=5.59 --lethality=0.0235 \
 My best run:
 
 ```fish
-# RSD: 0.130128
-# Day: 42 (Mar 29)
+# RSD: 0.123250
+# Day: 31 (Mar 29)
 pandemic --recovery=5.59 --lethality=0.0235 \
   --file_deaths=data/deaths_washoe \
   --alert_deaths=1 --alert_date=2020-03-29 \
   --population=472000 --contacts=100.0 \
   --travel=16 \
   --halt_alert_days=46 \
-  --seed=2e12a6f3f64c48fa688732f7e1b35e9b --transmission=0.331
+  --seed=45199385e37ae79b67e92134a9f1e076 --transmission=0.339
 ```
 
 I saved this run upto alert day 21:
@@ -63,7 +63,7 @@ pandemic --recovery=5.59 --lethality=0.0235 \
   --population=472000 --contacts=100.0 \
   --travel=16 \
   --halt_alert_days=21 \
-  --seed=2e12a6f3f64c48fa688732f7e1b35e9b --transmission=0.331 --description=washoe21 --save
+  --seed=45199385e37ae79b67e92134a9f1e076 --transmission=0.339 --description=washoe21 --save
 ```
 
 Then varied the travel and contacts parameters from that point:
@@ -75,7 +75,7 @@ pandemic --recovery=5.59 --lethality=0.0235 \
   --population=472000 --contacts=90.0 \
   --travel=14 \
   --halt_alert_days=84 \
-  --seed=2e12a6f3f64c48fa688732f7e1b35e9b --transmission=0.331 --description=washoe21 --load > cache/washoe/22-84_14_90.run
+  --seed=45199385e37ae79b67e92134a9f1e076 --transmission=0.339 --description=washoe21 --load > cache/washoe/22-84_14_90.run
 ```
 
 What that these runs looks like:
