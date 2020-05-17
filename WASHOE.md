@@ -78,6 +78,6 @@ pandemic --recovery=5.59 --lethality=0.0235 \
   --seed=45199385e37ae79b67e92134a9f1e076 --transmission=0.339 --description=washoe21 --load > cache/washoe/22-84_14_90.run
 ```
 
-What that these runs looks like:
+What these runs look like:
 
 ![Washoe Forecast](img/washoe_forecast.png)
