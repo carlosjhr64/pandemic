@@ -2,15 +2,21 @@ module Pandemic
   class Loop
     attr_reader :trace, :iterator
     attr_accessor :looping, :description
-    def initialize(trace: Trace.new, iterator: Iterator.new, looping: LOOP, description: DESCRIPTION)
-      @trace, @iterator, @looping, @description = trace, iterator, looping, description
+    def initialize(trace: Trace.new, iterator: Iterator.new,
+                   looping: LOOP, description: DESCRIPTION,
+                   saving: SAVE, loading: LOAD)
+      @trace, @iterator  =  trace, iterator
+      @looping, @description  =  looping, description
+      @saving, @loading  =  saving, loading
     end
 
     def to_s
       <<-LOOP.chomp
 # Loop
-    Looping:     #{@looping || '-'}
     Description: #{@description || '-'}
+    Looping:     #{@looping || '-'}
+    Loading:     #{@loading || '-'}
+    Saving:      #{@saving || '-'}
 
 #{@trace}
 #{@iterator}
@@ -88,7 +94,7 @@ module Pandemic
     end
 
     def save
-      dir = "cache/#{@description}"
+      dir = "cache/#{@saving}"
       Dir.mkdir dir
       File.open("#{dir}/cases", 'w'){|_|Marshal.dump @iterator.cases, _}
       File.open("#{dir}/tally", 'w'){|_|Marshal.dump @iterator.tally, _}
@@ -100,18 +106,18 @@ module Pandemic
     def setup
       cases = tally = analysis = rng = nil
       if OPTIONS.load?
-        dir      = "cache/#{@description}"
+        dir      = "cache/#{@loading}"
         File.open("#{dir}/rng", 'r'){|_|rng = Marshal.load _}
         unless SEED == (_=rng.seed.to_s(16))
-          $stderr.puts "Seed for #{description} is #{_}"; exit 65
+          $stderr.puts "Seed for #{@loading} is #{_}"; exit 65
         end
         File.open("#{dir}/tally", 'r'){|_|tally = Marshal.load _}
         unless ALERT_DATE == (_=tally.date-tally.alert_days)
-          $stderr.puts "Alert Date for #{description} is #{_}"; exit 65
+          $stderr.puts "Alert Date for #{@loading} is #{_}"; exit 65
         end
         File.open("#{dir}/cases", 'r'){|_|cases = Marshal.load _}
         unless @iterator.grid.population == (_=cases.capacity)
-          $stderr.puts "Population for #{@description} is #{_}."; exit 65
+          $stderr.puts "Population for #{@loading} is #{_}."; exit 65
         end
         File.open("#{dir}/analysis", 'r'){|_|analysis = Marshal.load _}
       else

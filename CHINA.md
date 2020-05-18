@@ -9,7 +9,7 @@ pandemic --recovery=5.59 --lethality=0.0235 \
   --population=58500000 --contacts=100.0 \
   --travel=1664 \
   --halt_alert_days=63 \
-  --transmission=0.381 --seed=c0c3853f10b2eec4dc9a9cc6bd469f73 > cache/sw-travel/ch1664.run
+  --transmission=0.381 --seed=c0c3853f10b2eec4dc9a9cc6bd469f73 > cache/ch-travel/ch1664.run
 ```
 
 What those runs look like:
@@ -25,8 +25,8 @@ pandemic --recovery=5.59 --lethality=0.0235 \
   --alert_deaths=1 --alert_date=2020-01-09 \
   --population=58500000 --contacts=100.0 \
   --travel=1664 \
-  --halt_alert_days=15 --description=ch15 \
-  --transmission=0.381 --seed=c0c3853f10b2eec4dc9a9cc6bd469f73 --save > cache/ch-contacts/ch25.run
+  --halt_alert_days=15 --save=ch15 \
+  --transmission=0.381 --seed=c0c3853f10b2eec4dc9a9cc6bd469f73 > cache/ch-contacts/ch15.run
 ```
 
 Then I run contact variations on top of the ch15 run:A
@@ -37,8 +37,8 @@ pandemic --recovery=5.59 --lethality=0.0235 \
   --alert_deaths=1 --alert_date=2020-01-09 \
   --population=58500000 --contacts=100.0 \
   --travel=1664 \
-  --halt_alert_days=63 --description=ch15 \
-  --transmission=0.381 --seed=c0c3853f10b2eec4dc9a9cc6bd469f73 --load > cache/ch-contacts/ch15_100.run
+  --halt_alert_days=63 --load=ch15 \
+  --transmission=0.381 --seed=c0c3853f10b2eec4dc9a9cc6bd469f73 > cache/ch-contacts/ch15_100.run
 ```
 
 What those runs look like:

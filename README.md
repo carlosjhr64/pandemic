@@ -19,14 +19,10 @@ This is what the runs looks like:
 
 The lines are from my runs below, the symbols are from actual counts.
 
-## Washoe county
+### Washoe county
 
-Since I live in Washoe county, Nevada(USA), and
-the county has the COVID-19 [deaths data](https://gis.washoecounty.us/COVID19) available...
-And since I don't have the time to maintain all the things...
-I've decided to only spend my time on trying to fully model Washoe county.
-
-The file `data/deaths_washoe` has the observed death counts in Washoe count.
+Washoe county, Nevada(USA) has the COVID-19 [deaths data](https://gis.washoecounty.us/COVID19) available...
+The file `data/deaths_washoe` has the observed death counts in Washoe county.
 On the first day that the model has at least 1 death(the alert),
 I set the date to 2020-03-29.
 I set the population to 472,000 for the county population.
@@ -35,6 +31,8 @@ The population of the city of Reno is about 251,000
 so I set an initial travel estimate of 250, `Math.sqrt(251_000)/2.0`.
 Because `pandemic` uses `rand`, setting `seed` allows one to duplicate a run.
 The simulation to fit the transmission parameter runs 21 days(3 weeks) after first death.
+
+My best first 21 days fit of Washoe:
 
 ```fish
 # Washoe County, NV, USA

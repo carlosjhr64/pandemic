@@ -11,8 +11,10 @@ class TestLoop < Test::Unit::TestCase
     assert lup.iterator.is_a? Pandemic::Iterator
     assert_equal <<-LOOP, lup.to_s
 # Loop
-    Looping:     -
     Description: run
+    Looping:     -
+    Loading:     -
+    Saving:      -
 
 # Trace
     Halt: {date: -, days: -, deaths: -, cases: -, color: -, alert_days: -, rsd: -}

@@ -1,5 +1,5 @@
 module Pandemic
-  VERSION = '2.34.200512'
+  VERSION = '2.34.200518'
   OPTIONS ||= HelpParser[VERSION, <<-HELP]
 Usage:
 
@@ -35,8 +35,9 @@ Options:
 
   -i --inspect          \tInspection
   -t --trials
-  -s --save             \tSave
-  -l --load             \tLoad
+
+  --save=DESCRIPTION    \tSave run
+  --load=DESCRIPTION    \tLoad run
 
 Types:
 
@@ -59,11 +60,12 @@ Exclusive:
 
   # Cache
   DESCRIPTION  = OPTIONS.description || 'run'
-  if OPTIONS.save? and File.exist? "cache/#{DESCRIPTION}"
-    $stderr.puts "cache/#{DESCRIPTION} exist."
+  if SAVE=OPTIONS.save and File.exist? "cache/#{SAVE}"
+    $stderr.puts "cache/#{SAVE} exist."
     exit 64
-  elsif OPTIONS.load? and not File.exist? "cache/#{DESCRIPTION}"
-    $stderr.puts "cache/#{DESCRIPTION} does not exist."
+  end
+  if LOAD=OPTIONS.load and not File.exist? "cache/#{LOAD}"
+    $stderr.puts "cache/#{LOAD} does not exist."
     exit 64
   end
 
