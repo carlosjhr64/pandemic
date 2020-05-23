@@ -111,7 +111,7 @@ pandemic --recovery=5.59 --lethality=0.0235 \
   --seed=45199385e37ae79b67e92134a9f1e076 --transmission=0.339 --load=washoe21 --save=washoe_phase_1
 ```
 
-### Varied contacts and travel
+### Varied contacts, travel, and lethality
 
 ```fish
 pandemic --recovery=5.59 --lethality=0.0235 \
@@ -124,10 +124,16 @@ pandemic --recovery=5.59 --lethality=0.0235 \
   --load=washoe_phase_1 > cache/washoe/phase1_16_100.run
 ```
 
-Three runs in red.
-What I think New York saw translated here: travel 250, contacts 133.
-What I initially fitted translated: travel 250, contacts 90.
-The reviewed initial best fit: travel 16, contacts 100.
+The three runs in pink:
+what I think New York saw translated here(travel 250, contacts 133, lethality 0.0235),
+what I initially fitted translated(travel 250, contacts 90, lethality 0.0235), and
+the reviewed initial best fit(travel 16, contacts 100, lethality 0.0235).
+
+As it looks as though phase 1 as yet to show any upward trend in Washoe county,
+I've added a couple of runs where maybe new treatments have lowered lethality by a factor of 0.71.
+Two two runs in cyan:
+the reviewed initial best fit with less lethality(travel 16, contacts 100, lethality 0.0167), and
+the previous trend but with less lethality(travel 10, contacts 50, lethality 0.0167).
 
 ![Washoe Phase 1 Forecast](img/washoe_forecast_phase1.png)
 
