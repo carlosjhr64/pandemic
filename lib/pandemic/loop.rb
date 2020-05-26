@@ -39,7 +39,7 @@ module Pandemic
         out.puts '| Date | Deaths | Doubling Days |'
         out.puts '| :--- | -----: | ------------: |'
         tally.alerts.each do |date, deaths, doubling_days|
-          out.print "| #{date.strftime('%b %d')} | #{deaths} "
+          out.print "| #{date} | #{deaths} "
           if doubling_days
             out.puts "| #{doubling_days.round(1)} |"
           else
@@ -51,9 +51,9 @@ module Pandemic
       p,c,i,r,d = @iterator.grid.population,tally.cases,tally.infected,tally.recovered,tally.deaths
       md,mi = tally.max_deaths,tally.max_infected
       mdd,mid = tally.max_deaths_date,tally.max_infected_date
-      mdd = (mdd)? mdd.strftime('%b %d') : '-'
-      mid = (mid)? mid.strftime('%b %d') : '-'
-      date = (_=tally.date)? _.strftime('%b %d') : '-'
+      mdd = (mdd)? mdd.to_s : '-'
+      mid = (mid)? mid.to_s : '-'
+      date = (_=tally.date)? _.to_s : '-'
       q = Math.log(p+1)
       f = lambda{|a|360*Math.log(a+1)/q}
       e = @trace.analysis

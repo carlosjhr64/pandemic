@@ -1,5 +1,5 @@
 module Pandemic
-  VERSION = '2.34.200518'
+  VERSION = '2.34.200526'
   OPTIONS ||= HelpParser[VERSION, <<-HELP]
 Usage:
 

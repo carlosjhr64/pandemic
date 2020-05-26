@@ -38,10 +38,10 @@ module Pandemic
       row = [
         @tally.days, @tally.deaths, @tally.cases, @tally.recovered, @tally.infected,
         @analysis.sum, @analysis.rsd || 0.0,
-        (@tally.date)? @tally.date.strftime('%Y-%b-%d') : '-' ]
+        (@tally.date)? @tally.date.to_s : '-' ]
       if $stdout.tty?
         line = sprintf("Day: %d  Dead: %d  Cases: %d  Recovered: %d  Infected: %d  ErrorSum: %d  RSD: %f  Date: %s", *row)
-        puts line.colorize(@analysis.color)
+        puts line.colorize(DEATHS_DATA[@tally.alert_days] ? @analysis.color : :default)
       else
         puts row.join(' '); $stdout.flush
       end
