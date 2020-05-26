@@ -6,7 +6,8 @@ set title 'Washoe Forecast: Phase 1'
 set key top left box
 set grid xtics y2tics
 set y2label 'Deaths'
-set logscale y2; set y2tics (8,16,32,64,128,256,512,1024,2048,4096)
+set logscale y2
+set y2tics mirror (1,2,4,6,9,12,16,20,25,30,36,42,49,56,64,72,81,90,100,121,144,169,196,240,289,342,400)
 set xlabel 'Date'
 set xtics ('Apr' 3, 'May' 33, 'Jun' 64, 'Jul' 94, 'Aug' 125)
 f(x,s) = x - s
