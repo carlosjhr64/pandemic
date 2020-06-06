@@ -15,7 +15,7 @@ plot \
   'cache/washoe/phase1_16_100_167.run'\
     using (f($1,31)):2 with lines lc 'cyan' title 'D:42, T:16, C:100 L:167' axis x1y2,\
   'cache/washoe/phase1_10_50_167.run'\
-    using (f($1,31)):2 with lines lc 'cyan' title 'D:42, T:16, C:100 L:167' axis x1y2,\
+    using (f($1,31)):2 with lines lc 'cyan' title 'D:42, T:10, C:50 L:167' axis x1y2,\
   'cache/washoe/phase1_250_133.run'\
     using (f($1,31)):2 with lines lc 'pink' title 'D:42, T:250, C:133 L:235' axis x1y2,\
   'cache/washoe/phase1_250_90.run'\

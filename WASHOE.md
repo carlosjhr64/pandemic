@@ -96,9 +96,11 @@ What these runs look like:
 
 ![Washoe Forecast](img/washoe_forecast.png)
 
-## Phase 1
+## Phase one
 
-On 2020-05-09, Nevada entered phase 1 of relaxing restrictions imposed by the state of emergency.
+On 2020-05-09,
+Nevada entered phase 1 of relaxing restrictions imposed by the state of emergency which
+included reopening restaurants.
 Saving current trend upto phase 1:
 
 ```fish
@@ -135,7 +137,37 @@ Two two runs in cyan:
 the reviewed initial best fit with less lethality(travel 16, contacts 100, lethality 0.0167), and
 the previous trend but with less lethality(travel 10, contacts 50, lethality 0.0167).
 
-![Washoe Phase 1 Forecast](img/washoe_forecast_phase1.png)
+![Washoe Phase One Forecast](img/washoe_forecast_phase1.png)
 
 Note that this is based on an IFR of 0.39%,
 which for the county's population means about 1841(`0.0039*472000`) lives at risk.
+
+## Phase two
+
+On 2020-05-29, Nevada entered phase 2 which included reopening bars.
+Saving current trend upto phase 2:
+
+```fish
+pandemic --recovery=5.59 --lethality=0.0167 \
+  --file_deaths=data/deaths_washoe \
+  --alert_deaths=1 --alert_date=2020-03-29 \
+  --population=472000 --contacts=50.0 \
+  --travel=10 \
+  --halt_date=2020-05-29 \
+  --seed=45199385e37ae79b67e92134a9f1e076 --transmission=0.339 --load=washoe_phase_1 --save=washoe_phase_2
+```
+
+Run with travel and contacts 30% higher than current trend:
+
+```fish
+pandemic --recovery=5.59 --lethality=0.0167 \
+  --file_deaths=data/deaths_washoe \
+  --alert_deaths=1 --alert_date=2020-03-29 \
+  --population=472000 --contacts=65.0 \
+  --travel=13 \
+  --halt_alert_days=168 \
+  --seed=45199385e37ae79b67e92134a9f1e076 --transmission=0.339 \
+  --load=washoe_phase_2 > cache/washoe/phase2_13_65_167.run
+```
+
+![Washoe Phase Two Forecast](img/washoe_forecast_phase2.png)
